@@ -7,6 +7,9 @@ classdef Robot
     properties
         center
         radius
+        X
+        Y
+        Z
         yaw
         depth;
         BBox

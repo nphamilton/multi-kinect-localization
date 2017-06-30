@@ -10,7 +10,7 @@ function initialize_system(botIDList)
 global botArray
 
 % Initialize botArray and assign all bots to their location
-splitBotList = strsplit(botIDList, ','); %HEY NATE THIS THING MIGHT BE DIFFERENT!!!
+splitBotList = strsplit(botIDList, ',');
 robot_count = length(splitBotList);
 robNames = cell(1,robot_count);
 robTypes = cell(1,robot_count);

@@ -8,6 +8,7 @@ function [found, bots] = findBots(imgColor, imgDepth, numDrones, numCreates, ...
 % imfindcircles on the whole image to find all robots.
 % if not enough circles are found, it returns false
 
+global camDistToFloor
 global MINIDRONE
 global CREATE2
 global ARDRONE
@@ -95,6 +96,10 @@ if numBots - numCreates > 0
                 bots(i).type = GHOST2;
                 bots(i).BBox = getBBox(bots(i).center, bots(i).radius, GHOST2);
                 bots(i).color = getColor(imgColor, bots(i).center);
+                centerMM = getMMCoord(botArray(i).center, botArray(i).radius, botArray(i).type);
+                bots(i).X = centerMM(1,1);
+                bots(i).Y = centerMM(1,2);
+                bots(i).Z = botArray(i).depth - camDistToFloor;
                 bots(i).yaw = 0;
                 bots(i).hyst = 0;
                 i = i + 1;
@@ -169,6 +174,10 @@ if numBots - numCreates > 0
                 bots(i).type = ARDRONE;
                 bots(i).BBox = getBBox(bots(i).center, bots(i).radius, ARDRONE);
                 bots(i).color = getColor(imgColor, bots(i).center);
+                centerMM = getMMCoord(botArray(i).center, botArray(i).radius, botArray(i).type);
+                bots(i).X = centerMM(1,1);
+                bots(i).Y = centerMM(1,2);
+                bots(i).Z = botArray(i).depth - camDistToFloor;
                 bots(i).yaw = 0;
                 bots(i).hyst = 0;
                 i = i + 1;
@@ -246,6 +255,10 @@ if numBots - numCreates > 0
                 bots(i).BBox = getBBox(centers_sorted(index,:), radii_sorted(index), MINIDRONE);
                 bots(i).color = getColor(imgColor, centers_sorted(index,:));
                 bots(i).type = MINIDRONE;
+                centerMM = getMMCoord(botArray(i).center, botArray(i).radius, botArray(i).type);
+                bots(i).X = centerMM(1,1);
+                bots(i).Y = centerMM(1,2);
+                bots(i).Z = botArray(i).depth - camDistToFloor;
                 bots(i).yaw = 0;
                 bots(i).hyst = 0;
                 i = i + 1;
@@ -304,6 +317,10 @@ if numCreates > 0
         bots(i).BBox = getBBox(centers(index,:), radii(index), CREATE2);
         bots(i).color = getColor(imgColor, centers(index,:));
         bots(i).type = CREATE2;
+        centerMM = getMMCoord(botArray(i).center, botArray(i).radius, botArray(i).type);
+        bots(i).X = centerMM(1,1);
+        bots(i).Y = centerMM(1,2);
+        bots(i).Z = botArray(i).depth - camDistToFloor;
         bots(i).yaw = 0;
         bots(i).hyst = 0;
         % remove selected circle
