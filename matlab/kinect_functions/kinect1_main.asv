@@ -55,19 +55,13 @@ invertedCamera = 0;
 hysteresis = 100;
 BBoxFactor = 1.7;
 
-% Initialize the values which will be filled by subscriptions
-botIDList = '';
-botList = '';
-shutdown_command = 0;
-incomingList = '';
-
 % Create generic subscribers
-botIDListSub = rossubscriber('/botID_list','std_msgs/String',@botIDListCallback);
-shutdownSub = rossubscriber('/shutdown','std_msgs/String',@shutdownCallback);
+botIDListSub = rossubscriber('/botID_list','std_msgs/String',callback);
+shutdownSub = rossubscriber('/shutdown','std_msgs/String',callback);
 
 % Create Kinect-specific subscribers
-botListSub = rossubscriber('/kinect1/bot_list','std_msgs/String',@botListCallback);
-incomingSub = rossubscriber('/kinect1/incoming','std_msgs/String',@incomingCallback);
+botListSub = rossubscriber('/kinect1/bot_list','std_msgs/String',callback);
+incomingSub = rossubscriber('/kinect1/incoming','std_msgs/String',callback);
 
 % Create publishers. All are Kinect-specific.
 locationPub = rospublisher('/kinect1/locations','std_msgs/String');
@@ -106,4 +100,4 @@ while shutdown_command == 0
     report_locations(botList, locationPub);
 end
 
-% Upon exit, do the following...
+% Upon exit, do this shit...

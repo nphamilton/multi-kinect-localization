@@ -17,7 +17,7 @@ robTypes = cell(1,robot_count);
 robColors = cell(1,robot_count);
 
 for i = 1:robot_count
-    currentRobInfo = strsplit(splitBotList(i));
+    currentRobInfo = strsplit(splitBotList(i), ':');
     robNames(i) = currentRobInfo(1);
     robTypes(i) = currentRobInfo(2);
     robColors(i) = currentRobInfo(3);
