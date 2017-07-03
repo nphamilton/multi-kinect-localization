@@ -22,6 +22,9 @@ global PHANTOM3
 global PHANTOM4
 global botArray
 global IP
+global xCenterMM
+global yCenterMM
+global invertedCamera
 
 IP = '0';
 
@@ -40,6 +43,9 @@ camDistToFloor = 3058; % in mm, as measured with Kinect
 mm_per_pixel = 5.663295322; % mm in one pixel at ground level
 warning('off','images:imfindcircles:warnForSmallRadius')
 kinectNum = 1;
+xCenterMM = 0;
+yCenterMM = 0;
+invertedCamera = 0;
 
 % Declare tracking Factors
 hysteresis = 100;
