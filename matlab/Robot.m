@@ -7,16 +7,23 @@ classdef Robot
     properties
         center
         radius
+        radii = [];
         X
+        Xs = [];
         Y
+        Ys  = [];
         Z
+        Zs = [];
         yaw
-        depth;
+        yaws = [];
+        depth
         BBox
+        BBoxes = [];
         BBoxTight % BBox with BBox factor of 1
         color
         type
         name
+        kinectNum
         hyst
     end
     
