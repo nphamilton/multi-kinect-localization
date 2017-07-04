@@ -73,7 +73,7 @@ while ischar(nextline)
             bot_lists(kinectNum) = strcat(bot_lists(kinectNum), num2str(botNum), ',');
             
             % Increment to the next bot
-            butNum = botNum + 1; 
+            botNum = botNum + 1; 
         end
     end
     nextline = fgets(f);
