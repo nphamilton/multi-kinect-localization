@@ -24,6 +24,7 @@ classdef Robot
         type
         name
         kinectNum
+        kinectNums = [];
         hyst
     end
     

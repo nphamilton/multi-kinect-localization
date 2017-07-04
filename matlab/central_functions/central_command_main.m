@@ -19,6 +19,7 @@ global waypoints_transmitted;
 global send_launch;
 global IP;
 global bots;
+global bot_lists;
 
 % Define values for global variable
 disp_waypoints = 1;
@@ -61,7 +62,7 @@ if(SAVE_TO_FILE)
 end
 
 % Open the list and parse through it to create the botID_list
-[botID_list bot_lists] = parse_input(BOTLIST_FILENAME);
+botID_list = parse_input(BOTLIST_FILENAME);
 
 % Create kinect-specific subscribers
 botListPubs = cell(1,numBots);
@@ -75,8 +76,8 @@ for i = 1:numBots
     resS = sprintf('/kinect%i/response',i);
     botListPubs(i) = rospublisher(botS,'std_msgs/String');
     incomingPubs(i) = rospublisher(incS,'std_msgs/String');
-    locationsSubs(i) = rossubscriber(locS,'std_msgs/String',callback);
-    responseSubs(i) = rossubscriber(resS,'std_msgs/String',callback);
+    locationsSubs(i) = rossubscriber(locS,'std_msgs/String',@locationReportCallback);
+    responseSubs(i) = rossubscriber(resS,'std_msgs/String',@incomingResponseCallback);
 end
 
 % Publish the specific bot lists
@@ -85,14 +86,14 @@ msg.Data = botID_list;
 send(botIDListPub,msg);
 
 % Publish botID_list
-publish_bot_lists(bot_lists, botListPubs);
+publish_bot_lists(botListPubs);
 
 while true
     % Check each robot's location information for potential boundary crossing
     % and inform the appropriate Kinects of the incident(s)
 
     % Publish the updated bot lists
-    publish_bot_lists(bot_lists, botListPubs);
+    publish_bot_lists(botListPubs);
     
     % Update the figure every ****** times
     
