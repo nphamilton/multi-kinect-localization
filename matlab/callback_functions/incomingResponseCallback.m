@@ -2,9 +2,7 @@ function [ ] = incomingResponseCallback( src, msg )
 % Author: Nate Hamilton
 %  Email: nathaniel.p.hamilton@vanderbilt.edu
 %  
-% Purpose: The purpose of this function is to update the respond to
-% verification messages returned from Kinect nodes about whether or not
-% they viewed the incomin robot.
+% Purpose: The purpose of this function is to update bot lists based on the responses returned from each Kinect node.
 
 global bot_lists
 
