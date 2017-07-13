@@ -16,25 +16,25 @@ PHANTOM4 = 107;
 
 name = lower(name);
 
-if name == 'minidrone'
-	return MINIDRONE;
-elseif name == 'create2'
-	return CREATE2;
-elseif name == 'ardrone'
-	return ARDRONE;
-elseif name == '3dr'
-	return THREEDR;
-elseif name == 'ghost2'
-	return GHOST2;
-elseif name == 'mavicpro'
-	return MAVICPRO;
-elseif name == 'phantom3'
-	return PHANTOM3;
-elseif name == 'phantom4'
-	return PHANTOM4;
+if strcmp(name,'minidrone')
+    number = MINIDRONE;
+elseif strcmp(name,'create2')
+	number = CREATE2;
+elseif strcmp(name,'ardrone')
+	number = ARDRONE;
+elseif strcmp(name,'3dr')
+	number = THREEDR;
+elseif strcmp(name,'ghost2')
+	number = GHOST2;
+elseif strcmp(name,'mavicpro')
+	number = MAVICPRO;
+elseif strcmp(name,'phantom3')
+	number = PHANTOM3;
+elseif strcmp(name,'phantom4')
+	number = PHANTOM4;
 else
 	error('invalid type in the input')
-	return 0;
+    number = 0;
 end
 
 end

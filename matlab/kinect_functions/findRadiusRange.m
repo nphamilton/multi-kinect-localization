@@ -15,8 +15,8 @@ if (type == MINIDRONE)
 	% Function determined using calibrate_kinect_settings.m
 	r = 1.205e-11  *depth^4 + -1.112e-07 *depth^3 ...
 	    + 0.0003868 *depth^2 + -0.6106 *depth + 400.6;
-	rmin = max(floor(r-2), 1);
-	rmax = ceil(r+3);
+	rmin = max(floor(r-5), 1);
+	rmax = ceil(r+5);
     if depth == 4900
         rmin = floor(22.2300 - 3);
         rmax = ceil(22.2300 + 3);
