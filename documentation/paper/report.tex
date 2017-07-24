@@ -1,0 +1,53 @@
+\documentclass{IEEEtran}
+\usepackage{graphicx}
+\usepackage{graphics}
+\usepackage{amssymb}
+\usepackage{verbatim}
+\usepackage{amsxtra}
+\usepackage{epsfig}
+\usepackage{subfigure}
+\usepackage{hyperref}
+\usepackage{amsmath}
+%\usepackage{amsthm} For theorems, lemmas, and others. From Latex
+\usepackage{mathtools}  
+\graphicspath{ {images/} }
+
+\begin{document}
+	
+%
+% paper title
+\title{Architecture for An Indoor Distributed Cyber-Physical System Composed of Mobile Robots and Fog Computing Nodes}
+
+
+\author{
+  Nathaniel Hamilton\thanks{N. Hamilton is a PhD student working with the Institute for Software Integrated Systems, Vanderbilt University, Nashville, Tennessee, USA. Email: {\tt\small nathaniel.p.hamilton@vanderbilt.edu}}\hspace{0.1in}
+ \and
+	Taylor Johnson \thanks{T. Johnson is with Vanderbilt University, Nashville, Tennessee, USA. Email:
+{\tt\small taylor.johnson@vanderbilt.edu}}\hspace{0.1in}
+}
+
+
+% make the title area
+\maketitle 
+\input{abstract}
+
+\IEEEpeerreviewmaketitle
+
+
+\input{introduction}
+\input{theory}
+\input{design}
+\input{results}
+\input{conclusion}
+\input{futureResearch}
+\input{acknowledgment}
+\cite{7867731}
+
+\bibliographystyle{IEEEtran}
+%\argument is your BibTeX string definitions and bibliography database(s)
+%\nocite{*}
+\bibliography{references}
+
+
+% that's all folks
+\end{document}
