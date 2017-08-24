@@ -63,7 +63,7 @@ incomingList = '';
 
 % Create generic subscribers
 botIDListSub = rossubscriber('/botID_list','std_msgs/String',@botIDListCallback);
-shutdownSub = rossubscriber('/shutdown','std_msgs/String',@shutdownCallback);
+shutdownSub = rossubscriber('/shutdown','std_msgs/Byte',@shutdownCallback);
 
 % Create Kinect-specific subscribers
 botListSub = rossubscriber('/kinect1/bot_list','std_msgs/String',@botListCallback);
@@ -90,9 +90,15 @@ report_locations(botList);
 % exit or quit
 while shutdown_command == 0
     % Use the Kinect to collect an image
-    trigger([vid vid2])
-    [imgColor, ts_color, metaData_Color] = getdata(vid);
-    [imgDepth, ts_depth, metaData_Depth] = getdata(vid2);
+% This code is for use with MatLab's IMAQ tool on a Windows device
+%     trigger([vid vid2])
+%     [imgColor, ts_color, metaData_Color] = getdata(vid);
+%     [imgDepth, ts_depth, metaData_Depth] = getdata(vid2);
+
+% This code is for use with a Linux device running the cameraParsr.cpp
+% program
+    imgColor = imread('rgb_image.jpg',jpg);
+    imgDepth = imread('depth_image.jpg',jpg);
 
     % Track the specified bots
     track_bots(botList, imgColor, imgDepth);

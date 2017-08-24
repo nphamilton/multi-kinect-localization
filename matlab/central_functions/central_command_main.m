@@ -31,7 +31,7 @@ send_launch = 0;
 
 % Create generic publishers
 botIDListPub = rospublisher('/botID_list','std_msgs/String');
-shutdownPub = rospublisher('/shutdown','std_msgs/String');
+shutdownPub = rospublisher('/shutdown','std_msgs/Byte');
 
 % Other necessary variables from load_settings
 USE_SERVER = 1; %Enable/disable the network server
@@ -102,6 +102,10 @@ while true
     if get(fig,'currentkey') == 'x'
         disp('Exiting...');
         close all;
+        % Send the shutdown command
+        msg = rosmessage('std_msgs/Byte');
+		msg.Data = '0';
+		send(shutdownPub,msg);
         shutdown_track = 0;
         judp('SEND',4000,IP,int8('ABORT'));
         break;
@@ -110,6 +114,10 @@ while true
     if get(fig,'currentkey') == 'q'
         disp('Exiting...');
         close all;
+        % Send the shutdown command
+        msg = rosmessage('std_msgs/Byte');
+		msg.Data = '0';
+		send(shutdownPub,msg);
         shutdown_track = 1;
         judp('SEND',4000,IP,int8('ABORT'));
         break;
