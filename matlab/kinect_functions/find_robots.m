@@ -14,6 +14,8 @@ global MAVICPRO
 global PHANTOM3
 global PHANTOM4
 global botArray
+global rgbImageName
+global depthImageName
 
 % turn the botList from a string to a listof integers
 specificList = str2num(botList);
@@ -52,10 +54,16 @@ end
 % Run findBots to find all the bots and then assign their names
 found = false;
 while ~found
-    trigger([vid vid2])
-    % Get the acquired frames and metadata.
-    [imgColor, ts_color, metaData_Color] = getdata(vid);
-    [imgDepth, ts_depth, metaData_Depth] = getdata(vid2);
+    % Use the Kinect to collect an image
+% This code is for use with MatLab's IMAQ tool on a Windows device
+%     trigger([vid vid2])
+%     [imgColor, ts_color, metaData_Color] = getdata(vid);
+%     [imgDepth, ts_depth, metaData_Depth] = getdata(vid2);
+
+% This code is for use with a Linux device running the cameraParsr.cpp
+% program
+    imgColor = imread(rgbImageName,jpg);
+    imgDepth = imread(depthImageName,jpg);
     % make this function modify botArray, instead of return so many things
     [found, bots] = findBots(imgColor, imgDepth, numDrones, numCreates, ...
         numARDrones, num3DRDrones, numGhostDrones, numMavicDrones, ...

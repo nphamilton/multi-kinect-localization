@@ -127,6 +127,12 @@ end
 % add accumulated values
 botArray(index).yaws = [botArray(index).yaws, botArray(index).yaw];
 botArray(index).depths = [botArray(index).depths, depth];
+
+% Update X, Y, and Z coordinates
+centerMM = getMMCoord(botArray(index).center, botArray(index).radius, botArray(index).type);
+botArray(index).X = centerMM(1,1);
+botArray(index).Y = centerMM(1,2);
+botArray(index).Z = botArray(index).depth - camDistToFloor;
 end
 
 

@@ -31,30 +31,30 @@ for i = 1:robot_count
     botArray(i).color = robColors(i);
 end
 
-
-% Initialize the Kinect by capturing a few frames
-if exist('vid', 'var') && exist('vid2', 'var')
-    stop([vid vid2]);
-    clear vid vid2;
-elseif exist('vid1', 'var') && exist('vid2', 'var')
-    stop([vid1 vid2]);
-    clear vid1 vid2;
-end
-
-vid1 = videoinput('kinect',1); %color 
-vid2 = videoinput('kinect',2); %depth
-
-vid1.FramesPerTrigger = 1;
-vid2.FramesPerTrigger = 1;
-
-vid1.TriggerRepeat = num_frames;
-vid2.TriggerRepeat = num_frames;
-
-triggerconfig([vid1 vid2],'manual');
-start([vid1 vid2]);
-% trigger a couple times in case first frames are bad
-trigger([vid1 vid2])
-trigger([vid1 vid2]) 
+% This code is only used if using the IMAQ tool
+% % Initialize the Kinect by capturing a few frames
+% if exist('vid', 'var') && exist('vid2', 'var')
+%     stop([vid vid2]);
+%     clear vid vid2;
+% elseif exist('vid1', 'var') && exist('vid2', 'var')
+%     stop([vid1 vid2]);
+%     clear vid1 vid2;
+% end
+% 
+% vid1 = videoinput('kinect',1); %color 
+% vid2 = videoinput('kinect',2); %depth
+% 
+% vid1.FramesPerTrigger = 1;
+% vid2.FramesPerTrigger = 1;
+% 
+% vid1.TriggerRepeat = num_frames;
+% vid2.TriggerRepeat = num_frames;
+% 
+% triggerconfig([vid1 vid2],'manual');
+% start([vid1 vid2]);
+% % trigger a couple times in case first frames are bad
+% trigger([vid1 vid2])
+% trigger([vid1 vid2]) 
 
 end
 

@@ -29,6 +29,8 @@ global botIDList
 global botList
 global shutdown_command
 global incomingList
+global rgbImageName
+global depthImageName
 
 IP = '0';
 
@@ -43,6 +45,7 @@ PHANTOM3 = 106;
 PHANTOM4 = 107;
 
 % Establish Kinect Settings
+% NOTE: THESE VALUES CHANGE FOR EACH KINECT
 camDistToFloor = 3058; % in mm, as measured with Kinect
 mm_per_pixel = 5.663295322; % mm in one pixel at ground level
 warning('off','images:imfindcircles:warnForSmallRadius')
@@ -50,6 +53,9 @@ kinectNum = 1;
 xCenterMM = 0;
 yCenterMM = 0;
 invertedCamera = 0;
+rgbImageName = 'rgb_image.jpg';
+depthImageName = 'depth_image.jpg';
+
 
 % Declare tracking Factors
 hysteresis = 100;
@@ -97,8 +103,8 @@ while shutdown_command == 0
 
 % This code is for use with a Linux device running the cameraParsr.cpp
 % program
-    imgColor = imread('rgb_image.jpg',jpg);
-    imgDepth = imread('depth_image.jpg',jpg);
+    imgColor = imread(rgbImageName,jpg);
+    imgDepth = imread(depthImageName,jpg);
 
     % Track the specified bots
     track_bots(botList, imgColor, imgDepth);
