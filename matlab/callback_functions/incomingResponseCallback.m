@@ -21,23 +21,27 @@ for i = 2:length(report)
     prevNum = str2double(current(3));
     
     % Based on the status reported, the bot_lists need to be updated
-    if status == 'found'
+    if strcmp(status, 'P') == 1
         % If the bot was found, remove the bot from the previous Kinect's
         % list and move it to the new one
 
         % Remove the botID from the previous Kinect's list
-        prevKinectList = strcat(bot_lists(prevNum),',');
-        s = strcat(botNum,',');
-        newKinectList = strrep(prevKinectList,s,'');
-        newKinectList = newKinectList(1:end-1);
+        prevKinectList = strcat(bot_lists(prevNum),','); % #,bot#,# -> #,bot#,#, || #,#,bot# -> #,#,bot#, || bot#,#,# -> bot#,#,#, || bot# -> bot#,
+        s = strcat(botNum,','); % bot# -> bot#,
+        newKinectList = strrep(prevKinectList,s,''); % #,bot#,#, -> #,#, || #,#,bot#, -> #,#, || bot#,#,#, -> #,#, || bot#, -> ''
+        if length(newKinectList) > 1 % remove the possibility of putting an empty string through this process
+            newKinectList = newKinectList(1:end-1); % #,#, -> #,#
+        end
         bot_lists(prevNum) = newKinectList;
         
         % Add the botID to the new Kinect's list
         bot_lists(kinectNum) = strcat(bot_lists(kinectNum),',',botNum);
-    elseif status == 'not found'
+    elseif strcmp(status, 'NP') == 1
         % The bot was not found in the new field of view. Do nothing.
     else
         % This should not occur so report an error
+        d = sprintf('Error: Invalid response concerning bot %s from Kinect %s/%s',botNum,kinectNum);
+        disp(d);
     end
     
 end
