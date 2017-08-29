@@ -20,6 +20,7 @@ global send_launch;
 global IP;
 global bots;
 global bot_lists;
+global BBoxFactor;
 
 % Define values for global variable
 disp_waypoints = 1;
@@ -28,6 +29,7 @@ fig_closed = 0;
 clear_history = 0;
 waypoints_transmitted = 0;
 send_launch = 0;
+BBoxFactor = 3; % intentionally large because it is used for searching for drones not found in previous locations
 
 % Create generic publishers
 botIDListPub = rospublisher('/botID_list','std_msgs/String');
@@ -91,11 +93,16 @@ publish_bot_lists(botListPubs);
 while true
     % Check each robot's location information for potential boundary crossing
     % and inform the appropriate Kinects of the incident(s)
+    find_potential_crossings(bots);
 
     % Publish the updated bot lists
     publish_bot_lists(botListPubs);
     
     % Update the figure every ****** times
+    if rem(frameCount,4) == 0
+        plot_bots(fig, LINE_LEN, X_MAX, Y_MAX, bots, waypoints, walls,...
+            disp_waypoints, disp_waypoint_names)
+    end
     
     % Check the window command for exit command
     % Interpret an exit key press
