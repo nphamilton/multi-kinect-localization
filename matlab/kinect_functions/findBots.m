@@ -287,7 +287,7 @@ if numBots - numCreates > 0
     % find Phantom4 drones
     
     
-    %find Mavic Pro drones
+    % find Mavic Pro drones
 end
 
 % find any creates

@@ -54,39 +54,50 @@ end
 % Run findBots to find all the bots and then assign their names
 found = false;
 while ~found
-    % Use the Kinect to collect an image
-% This code is for use with MatLab's IMAQ tool on a Windows device
-%     trigger([vid vid2])
-%     [imgColor, ts_color, metaData_Color] = getdata(vid);
-%     [imgDepth, ts_depth, metaData_Depth] = getdata(vid2);
+    % This loop will repeat if the color matching does not work or not all
+    % of the robots are identified
+    while ~found
+        % Use the Kinect to collect an image
+    % This code is for use with MatLab's IMAQ tool on a Windows device
+    %     trigger([vid vid2])
+    %     [imgColor, ts_color, metaData_Color] = getdata(vid);
+    %     [imgDepth, ts_depth, metaData_Depth] = getdata(vid2);
 
-% This code is for use with a Linux device running the cameraParsr.cpp
-% program
-    imgColor = imread(rgbImageName,jpg);
-    imgDepth = imread(depthImageName,jpg);
-    % make this function modify botArray, instead of return so many things
-    [found, bots] = findBots(imgColor, imgDepth, numDrones, numCreates, ...
-        numARDrones, num3DRDrones, numGhostDrones, numMavicDrones, ...
-        numPhant3Drones, numPhant4Drones);
-end
+    % This code is for use with a Linux device running the cameraParsr.cpp
+    % program
+        imgColor = imread(rgbImageName,jpg);
+        imgDepth = imread(depthImageName,jpg);
+        % make this function modify botArray, instead of return so many things
+        [found, bots] = findBots(imgColor, imgDepth, numDrones, numCreates, ...
+            numARDrones, num3DRDrones, numGhostDrones, numMavicDrones, ...
+            numPhant3Drones, numPhant4Drones);
+    end
 
-% Match each robot found to it's designated name
-for i = specificList
-    k = 1;
-    while k < robot_count
-        if botArray(i).type == bots(k).type
-            if botArray(i).color == bots(k).color
-                % If the type and color match, then the robot name
-                % is given to that robot
-                botArray(i) = bots(k);
-                break;
+    % Match each robot found to it's designated name
+    numBotsUsed = 0;
+    for i = specificList
+        k = 1;
+        while k < robot_count
+            if botArray(i).type == bots(k).type
+                if botArray(i).color == bots(k).color
+                    % If the type and color match, then the robot name
+                    % is given to that robot
+                    botArray(i) = bots(k);
+                    numBotsUsed = numBotsUsed + 1;
+                    break;
+                else
+                    k = k + 1;
+                end
             else
                 k = k + 1;
             end
-        else
-            k = k + 1;
         end
     end
+    
+    % if not all of the robots are identified and color matched, the
+    % process needs to start over and try again
+    if numBotsUsed ~= robot_count
+        found = false;
+    end
 end
-
 return;

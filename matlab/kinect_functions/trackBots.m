@@ -96,9 +96,26 @@ if isempty(centers)
     botArray(index).hyst = botArray(index).hyst + 1;
     return
 end
-botArray(index).hyst = 0;
-% keep strongest circle, put back in original coordinates
+
+% keep strongest circle, put back in original coordinates for
+% identification
 [~, indexCircle] = max(metrics);
+% Make sure the color matches what it should be
+color = getColor(frame, centers(indexCircle,1));
+if color ~= botArray(index).color
+    [botArray(index).color, ' bot not found due to color mismatch']
+    botArray(index).centers = [botArray(index).centers; botArray(index).center];
+    botArray(index).depths = [botArray(index).depths, botArray(index).depth];
+    botArray(index).radii = [botArray(index).radii, botArray(index).radius];
+    botArray(index).yaws = [botArray(index).yaws, botArray(index).yaw];
+    botArray(index).hyst = botArray(index).hyst + 1;
+    return
+end
+
+% If this part of the code is reached, the robot has been found so the
+% hysteresis should reset
+botArray(index).hyst = 0;
+
 % add center to botArray, add BBox to get back in whole image px coord
 botArray(index).center(1,1) = centers(indexCircle,1) + max([botArray(index).BBox(1),1]);
 botArray(index).center(1,2) = centers(indexCircle,2) + max([botArray(index).BBox(2),1]);
