@@ -66,6 +66,9 @@ end
 % Open the list and parse through it to create the botID_list
 botID_list = parse_input(BOTLIST_FILENAME);
 
+% Establish boundaries for each Kinect node
+establish_boundaries();
+
 % Create kinect-specific subscribers
 botListPubs = cell(1,numBots);
 incomingPubs = cell(1,numBots);

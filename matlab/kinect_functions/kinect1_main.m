@@ -26,6 +26,7 @@ global xCenterMM
 global yCenterMM
 global invertedCamera
 global botIDList
+global kinectIDList
 global botList
 global shutdown_command
 global incomingList
@@ -50,8 +51,8 @@ camDistToFloor = 3058; % in mm, as measured with Kinect
 mm_per_pixel = 5.663295322; % mm in one pixel at ground level
 warning('off','images:imfindcircles:warnForSmallRadius')
 kinectNum = 1;
-xCenterMM = 0;
-yCenterMM = 0;
+% xCenterMM = 0;
+% yCenterMM = 0;
 invertedCamera = 0;
 rgbImageName = 'rgb_image.jpg';
 depthImageName = 'depth_image.jpg';
@@ -69,6 +70,7 @@ incomingList = '';
 
 % Create generic subscribers
 botIDListSub = rossubscriber('/botID_list','std_msgs/String',@botIDListCallback);
+kinectIDListSub = rossubscriber('/kinectID_list','std_msgs/String',@kinectIDListCallback);
 shutdownSub = rossubscriber('/shutdown','std_msgs/Byte',@shutdownCallback);
 
 % Create Kinect-specific subscribers
@@ -80,11 +82,11 @@ locationPub = rospublisher('/kinect1/locations','std_msgs/String');
 responsePub = rospublisher('/kinect1/response','std_msgs/String');
 
 % Wait until the botID_list has been sent
-while botIDList == ''
+while botIDList == '' || kinectIDList == ''
 end
 
 % Initiale the kinect using the gained info
-initialize_system(botIDList);
+initialize_system(botIDList, kinectIDList);
 
 % Find all of the robots specified by the master
 find_robots(botList, imgColor, imgDepth);

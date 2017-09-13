@@ -17,6 +17,7 @@ The *Specifications* refers to necessities required for the message.
 ## Messages Sent by Central Command
 Label | Type | Format | Specifications
 ------|------|--------|---------------
+/kinectID_list	| String | 'kinect_number:center_X:center_Y,kinect_number:center_X:center_Y,...' | Must include all of the Kinects and their center coordinates in millimeters.
 /botID_list	| String | 'robot_name:robot_type:color,robot_name:robot_type:color,...' | Must include all of the robots. The order will be maintained and each robot's number will be determined by its index in the botArray.
 /shutdown | Byte | 0 \| 1 | 0 to continue, 1 to shutdown
 /kinect#/bot_list | String | 'robot_number,robot_number,...' | This list contains only the robots to appear under Kinect#.

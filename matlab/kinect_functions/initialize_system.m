@@ -1,4 +1,4 @@
-function initialize_system(botIDList)
+function initialize_system(botIDList, kinectIDList)
 % Author: Nathaniel Hamilton
 %  Email: nathaniel.p.hamilton@vanderbilt.edu
 %
@@ -8,6 +8,22 @@ function initialize_system(botIDList)
 % Kinect is initialized in this function.
 
 global botArray
+global kinectNum
+global xCenterMM
+global yCenterMM
+
+% Initialize the Kinect's central location
+splitKinectList = strsplit(kinectIDList, ',');
+kinect_count = length(splitKinectList);
+
+for i = 1:kinect_count
+    temp = strrep(splitKinectList(i), ':', ' ');
+    currentKinectInfo = str2num(temp);
+    if currentKinectInfo(1) == kinectNum
+        xCenterMM = currentKinectInfo(2);
+        yCenterMM = currentKinectInfo(3);
+    end
+end
 
 % Initialize botArray and assign all bots to their location
 splitBotList = strsplit(botIDList, ',');
