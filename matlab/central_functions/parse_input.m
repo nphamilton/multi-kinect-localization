@@ -8,16 +8,19 @@ function [botID_list] = parse_input(fileName)
 % The file is setup with the following format:
 %
 % numBots numKinects
-% Kinect 1
+% Kinect 1 X Y
 % botName type color
 % botName type color
-% Kinect 2
+% Kinect 2 X Y
 % botName type color
 % .
 % .
 
+% TODO: GENERATE botID_list
+
 global bots
 global bot_lists
+global kinect_locations
 
 % Open the file
 f = fopen(fileName,'r');
@@ -48,7 +51,7 @@ while ischar(nextline)
         if nextline(1:6) == 'Kinect' || nextline(1:6) == 'kinect'
             % If the line is for declaring the next Kinect number, update
             % the Kinect number
-            C = textscan(nextline,'%s %d');
+            C = textscan(nextline,'%s %d %d %d');
             
             % But first, clean up the previous Kinect's bot list by
             % removing the last comma
@@ -60,6 +63,7 @@ while ischar(nextline)
             
             % Update the Kinect number
             kinectNum = C{2};
+            kinect_locations(kinectNum) = [C{3} C{4}];
             
         else
             % Otherwise the line is for declaring a robot

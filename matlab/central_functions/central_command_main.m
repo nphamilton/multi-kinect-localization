@@ -20,6 +20,7 @@ global send_launch;
 global IP;
 global bots;
 global bot_lists;
+global kinect_locations;
 global BBoxFactor;
 
 % Define values for global variable

@@ -11,10 +11,10 @@ function [ ground_boundaries air_boundaries ] = establish_boundaries( kinectLoca
 % later.
 
 % These constants have to be changed for different setups
-xRadius = 0;
-yRadius = 0;
+xRadius = 318/2;
+yRadius = 234/2;
 
-[numKinects, p] = size(kinectLocations); % The ans might need to be flipped
+[p,numKinects] = size(kinectLocations); % The ans might need to be flipped
 bounds = zeros(numKinects,4);
 
 for i = 1:numKinects
@@ -23,9 +23,9 @@ for i = 1:numKinects
     bounds(i,3) = kinectLocations(i,2) - yRadius;
     bounds(i,4) = kinectLocations(i,2) + yRadius;
 end
-
-
-
 ground_boundaries = bounds;
+
+%TODO: Calculate air boundaries
+air_boundaries = bounds;
 end
 
