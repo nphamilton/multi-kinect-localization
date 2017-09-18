@@ -1,4 +1,4 @@
-function [botID_list] = parse_input(fileName)
+function [botID_list, waypoint_filename] = parse_input(fileName)
 % Author: Nate Hamilton
 %  Email: nathaniel.p.hamilton@vanderbilt.edu
 %  
@@ -7,6 +7,7 @@ function [botID_list] = parse_input(fileName)
 % 
 % The file is setup with the following format:
 %
+% WAYPOINT_FILE_NAME
 % numBots numKinects
 % Kinect 1 X Y
 % botName type color
@@ -24,8 +25,15 @@ global kinect_locations
 
 % Open the file
 f = fopen(fileName,'r');
+
+% Read the waypoint file name
 firstline = fgets(f);
-C = textscan(firstline,'%d %d');
+C = textscan(firstline, '%s');
+waypoint_filename = C{1};
+
+% Read the number of kinects and robots
+secondline = fgets(f);
+C = textscan(secondline,'%d %d');
 numBots = C{1};
 numKinects = C{2};
 

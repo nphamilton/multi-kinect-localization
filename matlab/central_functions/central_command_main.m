@@ -40,7 +40,6 @@ shutdownPub = rospublisher('/shutdown','std_msgs/Byte');
 USE_SERVER = 1; %Enable/disable the network server
 USE_WPT = 1;    %Enable/disable loading waypoints and walls
 USE_HISTORY = 1;%Enable/disable history
-WPT_FILENAME = 'smaller_square.wpt';
 BOTLIST_FILENAME = 'robot_list.txt';
 % Grid size and spacing parameters
 TX_PERIOD = 0.05;	%sec
@@ -65,7 +64,10 @@ if(SAVE_TO_FILE)
 end
 
 % Open the list and parse through it to create the botID_list
-botID_list = parse_input(BOTLIST_FILENAME);
+[botID_list, WPT_FILENAME] = parse_input(BOTLIST_FILENAME);
+
+% Load the walls and waypoints (if required)
+[walls, waypoints] = load_wpt(WPT_FILENAME, USE_WPT);
 
 % Establish boundaries for each Kinect node
 establish_boundaries();
