@@ -22,6 +22,7 @@ global bots;
 global bot_lists;
 global kinect_locations;
 global BBoxFactor;
+global gFrameCount;
 
 % Define values for global variable
 disp_waypoints = 1;
@@ -31,9 +32,11 @@ clear_history = 0;
 waypoints_transmitted = 0;
 send_launch = 0;
 BBoxFactor = 3; % intentionally large because it is used for searching for drones not found in previous locations
+IP = '10.255.24.255';
 
 % Create generic publishers
 botIDListPub = rospublisher('/botID_list','std_msgs/String');
+kinectLocationPub = rospublisher('/kinectID_list','std_msgs/String');
 shutdownPub = rospublisher('/shutdown','std_msgs/Byte');
 
 % Other necessary variables from load_settings
@@ -88,14 +91,23 @@ for i = 1:numBots
     responseSubs(i) = rossubscriber(resS,'std_msgs/String',@incomingResponseCallback);
 end
 
-% Publish the specific bot lists
+% Publish botID_list
 msg = rosmessage('std_msgs/String');
 msg.Data = botID_list;
 send(botIDListPub,msg);
 
-% Publish botID_list
+% Publish the specific bot lists
 publish_bot_lists(botListPubs);
 
+% Publish Kinect locations to kinectID_list
+msg = rosmessage('std_msgs/String');
+msg.Data = botID_list;
+send(kinectLocationPub,msg);
+
+% Now that both botID_list and kinectID_list have been published, the nodes
+% will start searching for and reporting robot locations
+
+gFrameCount = 0;
 while true
     % Check each robot's location information for potential boundary crossing
     % and inform the appropriate Kinects of the incident(s)
@@ -105,6 +117,7 @@ while true
     publish_bot_lists(botListPubs);
     
     % Update the figure every ****** times
+    frameCount = gFrameCount;
     if rem(frameCount,4) == 0
         plot_bots(fig, LINE_LEN, X_MAX, Y_MAX, bots, waypoints, walls,...
             disp_waypoints, disp_waypoint_names)

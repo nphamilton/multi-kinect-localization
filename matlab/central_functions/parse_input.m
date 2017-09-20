@@ -5,7 +5,7 @@ function [botID_list, waypoint_filename] = parse_input(fileName)
 % Purpose: The purpose of this function is to parse through the input file
 % name for all of the robot information.
 % 
-% The file is setup with the following format:
+% The input file is setup with the following format:
 %
 % WAYPOINT_FILE_NAME
 % numBots numKinects
@@ -16,8 +16,6 @@ function [botID_list, waypoint_filename] = parse_input(fileName)
 % botName type color
 % .
 % .
-
-% TODO: GENERATE botID_list
 
 global bots
 global bot_lists
@@ -43,12 +41,13 @@ for i = 1:numBots
     bots(i) = Robot;
 end
 
+% Initialize the Kinect locations matrix
+kinect_locations = zeros(numKinects,2);
+
 % Initialize the bot lists
-bot_lists = cells(numKinects,1);
-for i = 1:numKinects
-    bot_lists(i) = '';
-end
-botIDs = '';
+% bot_lists = '';        %FIX THIS STUPID ISSUE CAN'T INITIALIZE AN ARRAY OF STRINGS?!?!?!?!?!?!?!?!
+list = '';
+botID_list = '';
 
 % Parse through the file reading one line at a time
 botNum = 1;
@@ -56,33 +55,38 @@ kinectNum = 1;
 nextline = fgets(f);
 while ischar(nextline)
     if numel(nextline) > 6
-        if nextline(1:6) == 'Kinect' || nextline(1:6) == 'kinect'
+        if strcmp(nextline(1:6),'Kinect') == 1 || strcmp(nextline(1:6), 'kinect') == 1
             % If the line is for declaring the next Kinect number, update
             % the Kinect number
             C = textscan(nextline,'%s %d %d %d');
             
             % But first, clean up the previous Kinect's bot list by
             % removing the last comma
-            if bot_lists(kinectNum) ~= '';
-                temp = bot_lists(kinectNum);
+            if strcmp(list,'') == 0
+                temp = list;
                 temp = temp(1:end-1);
-                bot_lists(kinectNum) = temp;
+                bot_lists = [bot_lists; temp];
+%                 bot_lists(kinectNum) = temp;
             end
             
             % Update the Kinect number
             kinectNum = C{2};
-            kinect_locations(kinectNum) = [C{3} C{4}];
+            kinect_locations(kinectNum,1) = C{3};
+            kinect_locations(kinectNum,2) = C{4};
             
         else
             % Otherwise the line is for declaring a robot
             C = textscan(nextline,'%s %s %s');
             %assign the info to the appropriate spot in bots
-            bots(botNum).name = C{1};
+%             bots(botNum).name = C{1};                                        %THIS LINE HAS PROBLEMS!!!!
             bots(botNum).type = type_name2num(C{2});
             bots(botNum).color = C{3};
             
             % Update the appropriat bot_list
-            bot_lists(kinectNum) = strcat(bot_lists(kinectNum), num2str(botNum), ',');
+            list = strcat(list, num2str(botNum), ',');
+            
+            % Add it to the botID_list
+            botID_list = strcat(botID_list, C{1}, ':', num2str(bots(botNum).type), ':', C{3}, ',');
             
             % Increment to the next bot
             botNum = botNum + 1; 
@@ -91,6 +95,22 @@ while ischar(nextline)
     nextline = fgets(f);
 end
 
-fclose(fileName);
+% All of the bots have been read. Make sure the last list does not have a
+% trailing ',' 
+if strcmp(list,'') == 0
+    temp = list;
+    temp = temp(1:end-1);
+    bot_lists = [bot_lists; temp];
+%     bot_lists(kinectNum) = temp;
+end
+
+% Make sure the botID_list does not have a trailing ','
+if strcmp(botID_list,',') == 0
+    disp('hello');
+    t = botID_list;
+    botID_list = t(1:end-1);
+end
+
+fclose(f);
 end
 

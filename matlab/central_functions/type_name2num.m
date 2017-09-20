@@ -33,8 +33,8 @@ elseif strcmp(name,'phantom3')
 elseif strcmp(name,'phantom4')
 	number = PHANTOM4;
 else
-	error('invalid type in the input')
     number = 0;
+    error('invalid type in the input')
 end
 
 end
