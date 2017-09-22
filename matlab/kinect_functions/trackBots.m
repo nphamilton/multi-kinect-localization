@@ -10,6 +10,7 @@ global PHANTOM3
 global PHANTOM4
 global camDistToFloor
 global hysteresis
+global BBoxFactor
 
 % get pixels in bouding box of bot
 depthFrame = getPixelsInBB(imgDepth, botArray(index).BBox);
@@ -126,7 +127,7 @@ botArray(index).radius = radii(indexCircle,:);
 botArray(index).radii = [botArray(index).radii, radii(indexCircle,:)];
 
 % find bbox
-botArray(index).BBox = getBBox(botArray(index).center, botArray(index).radius, botArray(index).type);
+botArray(index).BBox = getBBox(botArray(index).center, botArray(index).radius, botArray(index).type, BBoxFactor);
 botArray(index).BBoxes = [botArray(index).BBoxes; botArray(index).BBox];
 
 % add depth found if minidrone, add dist to floor if create, find yaws
@@ -139,6 +140,8 @@ elseif isGroundRobot(botArray(index).type)
     botArray(index).depth = camDistToFloor;
     botArray(index).yaw = findYaw(imgColor, botArray(index).BBox, ...
         botArray(index).yaw, botArray(index).center, botArray(index).radius, CREATE2);
+else
+    'error - Not a ground or Aerial Robot'
 end
 
 % add accumulated values

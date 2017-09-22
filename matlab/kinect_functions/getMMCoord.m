@@ -1,22 +1,21 @@
 function out = getMMCoord(coordinates, radius, type)
-global MINIDRONE
-global CREATE2
-global ARDRONE
-global THREEDR
-global GHOST2
-global MAVICPRO
-global PHANTOM3
-global PHANTOM4
+% Author: Nate Hamilton
+%  Email: nathaniel.p.hamilton@vanderbilt.edu
+%  
+% Purpose: This function converts location from pixel coordinates to mm 
+% coordinates
 global mm_per_pixel
 global xCenterMM
 global yCenterMM
 global invertedCamera
-% this function converts from pixel coordinates to mm coordinates
 
-% these are the center pixel value of the image. If using a camera with
-% different resolution than 640x480, this will need to be changed.
-xCenterPx = 320;
-yCenterPx = 240;
+% these are the center pixel values of the image. If using a camera with
+% different resolution than 640x480, this will need to be changed. If (0,0)
+% is the center of the image, use them. If the corner is (0,0) then use 0's
+% xCenterPx = 320;
+% yCenterPx = 240;
+xCenterPx = 0;
+yCenterPx = 0;
 
 x = coordinates(1,1);
 y = coordinates(1,2);

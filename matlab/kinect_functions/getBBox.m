@@ -1,8 +1,7 @@
-function BBox = getBBox(center, radius, type)
+function BBox = getBBox(center, radius, type, factor)
 % returns a bounding box for the robot. Should be big enough robot won't
 % move outside it in the next frame.
 
-global BBoxFactor
 global MINIDRONE
 global CREATE2
 global ARDRONE
@@ -22,6 +21,6 @@ else
     y = 1;
 end
 
-BBox = [[center(1,1) - BBoxFactor * radius*y, center(1,2) - BBoxFactor * radius*y], ...
-        [x*BBoxFactor*radius, x*BBoxFactor*radius]];
+BBox = [[center(1,1) - factor * radius*y, center(1,2) - factor * radius*y], ...
+        [x*factor*radius, x*factor*radius]];
 BBox = round(BBox);
