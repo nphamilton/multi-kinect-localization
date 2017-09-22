@@ -21,6 +21,7 @@ global IP;
 global bots;
 global bot_lists;
 global kinect_locations;
+global camDistToFloor;
 global BBoxFactor;
 global gFrameCount;
 
@@ -33,6 +34,7 @@ waypoints_transmitted = 0;
 send_launch = 0;
 BBoxFactor = 3; % intentionally large because it is used for searching for drones not found in previous locations
 IP = '10.255.24.255';
+camDistToFloor = 3058; % in mm, as measured with Kinect
 
 % Create generic publishers
 botIDListPub = rospublisher('/botID_list','std_msgs/String');
@@ -111,7 +113,7 @@ gFrameCount = 0;
 while true
     % Check each robot's location information for potential boundary crossing
     % and inform the appropriate Kinects of the incident(s)
-    find_potential_crossings(bots);
+    find_potential_crossings(bots, incomingPubs);
 
     % Publish the updated bot lists
     publish_bot_lists(botListPubs);
