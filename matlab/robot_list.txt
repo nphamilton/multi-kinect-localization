@@ -1,7 +1,7 @@
 WAYPOINT_FILE_NAME.txt
 3 2
 Kinect 1 10 11
-bot1 minidrone red
-bot2 Phantom4 blue
+bot1 minidrone r
+bot2 Phantom4 b
 Kinect 2 12 13
-bot3 Ghost2 green
+bot3 Ghost2 g

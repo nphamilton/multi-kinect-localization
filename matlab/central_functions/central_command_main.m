@@ -69,7 +69,7 @@ if(SAVE_TO_FILE)
 end
 
 % Open the list and parse through it to create the botID_list
-[botID_list, WPT_FILENAME] = parse_input(BOTLIST_FILENAME);
+[botID_list, kinectID_list, WPT_FILENAME] = parse_input(BOTLIST_FILENAME);
 
 % Load the walls and waypoints (if required)
 [walls, waypoints] = load_wpt(WPT_FILENAME, USE_WPT);
@@ -78,10 +78,10 @@ end
 establish_boundaries();
 
 % Create kinect-specific subscribers
-botListPubs = cell(1,numBots);
-incomingPubs = cell(1,numBots);
-locationsSubs = cell(1,numBots);
-responseSubs = cell(1,numBots);
+botListPubs = strings(1,numBots);
+incomingPubs = strings(1,numBots);
+locationsSubs = strings(1,numBots);
+responseSubs = strings(1,numBots);
 for i = 1:numBots
     botS = sprintf('/kinect%i/bot_list',i);
     incS = sprintf('/kinect%i/incoming',i);
@@ -103,7 +103,7 @@ publish_bot_lists(botListPubs);
 
 % Publish Kinect locations to kinectID_list
 msg = rosmessage('std_msgs/String');
-msg.Data = botID_list;
+msg.Data = kinectID_list;
 send(kinectLocationPub,msg);
 
 % Now that both botID_list and kinectID_list have been published, the nodes
@@ -132,7 +132,7 @@ while true
         close all;
         % Send the shutdown command
         msg = rosmessage('std_msgs/Byte');
-		msg.Data = '0';
+		msg.Data = 0;
 		send(shutdownPub,msg);
         shutdown_track = 0;
         judp('SEND',4000,IP,int8('ABORT'));
@@ -144,7 +144,7 @@ while true
         close all;
         % Send the shutdown command
         msg = rosmessage('std_msgs/Byte');
-		msg.Data = '0';
+		msg.Data = 0;
 		send(shutdownPub,msg);
         shutdown_track = 1;
         judp('SEND',4000,IP,int8('ABORT'));

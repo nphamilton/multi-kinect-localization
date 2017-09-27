@@ -28,9 +28,9 @@ end
 % Initialize botArray and assign all bots to their location
 splitBotList = strsplit(botIDList, ',');
 robot_count = length(splitBotList);
-robNames = cell(1,robot_count);
-robTypes = cell(1,robot_count);
-robColors = cell(1,robot_count);
+robNames = strings(1,robot_count);
+robTypes = zeros(1,robot_count);
+robColors = strings(1,robot_count);
 
 for i = 1:robot_count
     currentRobInfo = strsplit(splitBotList(i), ':');

@@ -63,10 +63,10 @@ hysteresis = 100;
 BBoxFactor = 1.7;
 
 % Initialize the values which will be filled by subscriptions
-botIDList = '';
-botList = '';
+botIDList = "";
+botList = "";
 shutdown_command = 0;
-incomingList = '';
+incomingList = "";
 
 % Create generic subscribers
 botIDListSub = rossubscriber('/botID_list','std_msgs/String',@botIDListCallback);
@@ -82,7 +82,7 @@ locationPub = rospublisher('/kinect1/locations','std_msgs/String');
 responsePub = rospublisher('/kinect1/response','std_msgs/String');
 
 % Wait until the botID_list has been sent
-while botIDList == '' || kinectIDList == ''
+while strcmp(botIDList,'') == 1 || strcmp(kinectIDList,'') == 1
 end
 
 % Initiale the kinect using the gained info
@@ -112,7 +112,7 @@ while shutdown_command == 0
     track_bots(botList, imgColor, imgDepth);
     
     % Check for incoming bots if there are any
-    if incomingList ~= ''
+    if strcmp(incomingList,'') == 0
         check_incoming(incomingList, responsePub, imgColor, imgDepth);
     end
     

@@ -1,4 +1,4 @@
-function [botID_list, waypoint_filename] = parse_input(fileName)
+function [botID_list, kinectID_list, waypoint_filename] = parse_input(fileName)
 % Author: Nate Hamilton
 %  Email: nathaniel.p.hamilton@vanderbilt.edu
 %  
@@ -45,9 +45,10 @@ end
 kinect_locations = zeros(numKinects,2);
 
 % Initialize the bot lists
-% bot_lists = '';        %FIX THIS STUPID ISSUE CAN'T INITIALIZE AN ARRAY OF STRINGS?!?!?!?!?!?!?!?!
-list = '';
-botID_list = '';
+bot_lists = strings(numKinects,1);        %FIX THIS STUPID ISSUE CAN'T INITIALIZE AN ARRAY OF STRINGS?!?!?!?!?!?!?!?!
+list = "";
+botID_list = "";
+kinectID_list = "";
 
 % Parse through the file reading one line at a time
 botNum = 1;
@@ -63,26 +64,25 @@ while ischar(nextline)
             % But first, clean up the previous Kinect's bot list by
             % removing the last comma
             if strcmp(list,'') == 0
-                temp = list;
-                temp = temp(1:end-1);
-                bot_lists = [bot_lists; temp];
-%                 bot_lists(kinectNum) = temp;
+                bot_lists(kinectNum) = strip(list, 'right', ',');
+                list = "";
             end
             
             % Update the Kinect number
             kinectNum = C{2};
             kinect_locations(kinectNum,1) = C{3};
             kinect_locations(kinectNum,2) = C{4};
+            kinectID_list = strcat(kinectID_list, str2num(C{2}), ',', str2num(C{3}), ',', str2num(C{4}), ',');
             
         else
             % Otherwise the line is for declaring a robot
             C = textscan(nextline,'%s %s %s');
             %assign the info to the appropriate spot in bots
-%             bots(botNum).name = C{1};                                        %THIS LINE HAS PROBLEMS!!!!
+            bots(botNum).name = C{1};                                        %THIS LINE HAS PROBLEMS!!!!
             bots(botNum).type = type_name2num(C{2});
             bots(botNum).color = C{3};
             
-            % Update the appropriat bot_list
+            % Update the appropriate bot_list
             list = strcat(list, num2str(botNum), ',');
             
             % Add it to the botID_list
@@ -98,17 +98,21 @@ end
 % All of the bots have been read. Make sure the last list does not have a
 % trailing ',' 
 if strcmp(list,'') == 0
-    temp = list;
-    temp = temp(1:end-1);
-    bot_lists = [bot_lists; temp];
-%     bot_lists(kinectNum) = temp;
+    bot_lists(kinectNum) = strip(list, 'right', ',');
 end
 
 % Make sure the botID_list does not have a trailing ','
 if strcmp(botID_list,',') == 0
-    disp('hello');
+%     disp('hello');
     t = botID_list;
-    botID_list = t(1:end-1);
+    botID_list = strip(t, 'right', ',');
+end
+
+% Make sure the kinectID_list does not have a trailing ','
+if strcmp(kinectID_list,',') == 0
+%     disp('hello');
+    t = kinectID_list;
+    kinectID_list = strip(t, 'right', ',');
 end
 
 fclose(f);
