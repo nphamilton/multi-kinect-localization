@@ -18,7 +18,7 @@ prevKinectNums = zeros(1,robot_count);
 statuses = strings(1,robot_count);
 
 for i = 2:robot_count
-    currentRobInfo = strsplit(splitList(i), ':');
+    currentRobInfo = char(strsplit(splitList(i), ':'));
     robotNums(i) = str2num(currentRobInfo(1));
     searchAreas(1,i) = str2num(currentRobInfo(2));
     searchAreas(2,i) = str2num(currentRobInfo(3));

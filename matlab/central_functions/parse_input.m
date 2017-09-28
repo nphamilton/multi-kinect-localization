@@ -72,7 +72,7 @@ while ischar(nextline)
             kinectNum = C{2};
             kinect_locations(kinectNum,1) = C{3};
             kinect_locations(kinectNum,2) = C{4};
-            kinectID_list = strcat(kinectID_list, str2num(C{2}), ',', str2num(C{3}), ',', str2num(C{4}), ',');
+            kinectID_list = strcat(kinectID_list, num2str(C{2}), ':', num2str(C{3}), ':', num2str(C{4}), ',');
             
         else
             % Otherwise the line is for declaring a robot

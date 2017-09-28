@@ -51,8 +51,6 @@ camDistToFloor = 3058; % in mm, as measured with Kinect
 mm_per_pixel = 5.663295322; % mm in one pixel at ground level
 warning('off','images:imfindcircles:warnForSmallRadius')
 kinectNum = 1;
-% xCenterMM = 0;
-% yCenterMM = 0;
 invertedCamera = 0;
 rgbImageName = 'rgb_image.jpg';
 depthImageName = 'depth_image.jpg';
@@ -67,6 +65,10 @@ botIDList = "";
 botList = "";
 shutdown_command = 0;
 incomingList = "";
+
+% initialize remaining global variables
+xCenterMM = 0;
+yCenterMM = 0;
 
 % Create generic subscribers
 botIDListSub = rossubscriber('/botID_list','std_msgs/String',@botIDListCallback);

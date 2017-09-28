@@ -18,7 +18,7 @@ global rgbImageName
 global depthImageName
 
 % turn the botList from a string to a listof integers
-specificList = str2num(botList);
+specificList = str2num(char(botList));
 robot_count = length(specificList);
 
 % Determine the number of each type of robot present

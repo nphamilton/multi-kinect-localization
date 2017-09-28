@@ -17,7 +17,7 @@ splitKinectList = strsplit(kinectIDList, ',');
 kinect_count = length(splitKinectList);
 
 for i = 1:kinect_count
-    temp = strrep(splitKinectList(i), ':', ' ');
+    temp = char(strrep(splitKinectList(i), ':', ' '));
     currentKinectInfo = str2num(temp);
     if currentKinectInfo(1) == kinectNum
         xCenterMM = currentKinectInfo(2);

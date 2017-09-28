@@ -8,8 +8,8 @@ function report_locations(botList, publisher)
 global kinectNum
 global botArray
 
-numBots = length(botList);
-indeces = str2num(botList);
+indeces = str2num(char(botList));
+numBots = length(indeces);
 
 k = num2str(kinectNum);
 
