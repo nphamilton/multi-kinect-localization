@@ -14,6 +14,7 @@
 #include <cstdlib>
 #include <signal.h>
 #include <time.h>
+#include <stdio.h>
 
 /// [headers]
 #include <libfreenect2/libfreenect2.hpp>
@@ -130,8 +131,18 @@ int main()
   libfreenect2::Frame undistorted(512, 424, 4), registered(512, 424, 4);
 /// [registration setup]
 
-  size_t framecount = 0;
-
+  unsigned int framecount = 0;
+  
+/// [new directories for each time program is run] 
+  time_t now = time(0);
+  tm *ltm = localtime(&now);
+  char folderName [50];
+  sprintf(folderName, "Test_time_%d_%d_%d_%d:%d:%d",(1970 + ltm->tm_year),(1 + ltm->tm_mon),(ltm->tm_mday),(1 + ltm->tm_hour),(1 + ltm->tm_min),(1 + ltm->tm_sec));
+  rgbDir = folderName + "/rgbImages";
+  depthDir = folderName + "/depthImages";
+  system(("mkdir -p "+folderName).c_str());
+  system(("mkdir -p "+rgbDir).c_str());
+  system(("mkdir -p "+depthDir).c_str());
 
 /// [loop start]
   while(!cameraParser_shutdown)
@@ -149,8 +160,6 @@ int main()
 /// [registration]
       registration->apply(rgb, depth, &undistorted, &registered);
 /// [registration]
-
-    framecount++;
 	
     cv::Mat rgbMat = cv::Mat(rgb->height, rgb->width, CV_8UC4, rgb->data);
     cv::Mat irMat = cv::Mat(ir->height, ir->width, CV_32FC1, ir->data);
@@ -162,15 +171,21 @@ int main()
 //    cv::Mat registeredMat = cv::Mat(registered.height, registered.width, CV_8UC4, registered.data);
 //    cv::Mat registeredInvMat = cv::Mat(registeredInv.height, registeredInv.width, CV_32FC1, registeredInv.data);    
 
-    cv::imwrite("rgb_image.jpg", rgbMat);
-    cv::imwrite("depth_image.jpg", depthMat);
+    char rgbName [50];
+	char depthName [50];
+	sprintf(rgbName, "%s/image%06u.jpg",rgbDir,framecount);
+	sprintf(depthName, "%s/image%06u.jpg",depthDir,framecount);
+	cv::imwrite(rgbName, rgbMat);
+    cv::imwrite(depthName, depthMat);
+	
+	framecount++;
 
 /// [loop end]
     listener.release(frames);
     /*libfreenect2::this_thread::sleep_for(libfreenect2::chrono::milliseconds(250));*/
 
 // Sleep for a moment so that MatLab has time to read the files
-    delay(250);
+//    delay(250);
   }
 /// [loop end]
 
