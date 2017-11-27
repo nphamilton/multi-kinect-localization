@@ -90,6 +90,18 @@ end
 % Initiale the kinect using the gained info
 initialize_system(botIDList, kinectIDList);
 
+% This code is for use with a Linux device running the cameraParsr.cpp
+% program
+rgbDirectory = strcat(newest_file_or_folder( '/home/minnowboard1/KinectImages' ), 'rgbImages'); 
+depthDirectory = strcat(newest_file_or_folder( '/home/minnowboard1/KinectImages' ), 'depthImages');
+directory = dir(depthDirectory); 
+l = length(directory); 
+imageName = directry(l).name; 
+rgbImageName = strcat(rgbDirectory, '/', imageName); 
+depthImageName = strcat(depthDirectory, '/', imageName); 
+imgColor = imread(rgbImageName,'jpg');
+imgDepth = imread(depthImageName,'jpg');
+
 % Find all of the robots specified by the master
 find_robots(botList, imgColor, imgDepth);
 
@@ -107,8 +119,13 @@ while shutdown_command == 0
 
 % This code is for use with a Linux device running the cameraParsr.cpp
 % program
-    imgColor = imread(rgbImageName,jpg);
-    imgDepth = imread(depthImageName,jpg);
+    directory = dir(depthDirectory); 
+    l = length(directory); 
+    imageName = directry(l).name; 
+    rgbImageName = strcat(rgbDirectory, '/', imageName); 
+    depthImageName = strcat(depthDirectory, '/', imageName); 
+    imgColor = imread(rgbImageName,'jpg');
+    imgDepth = imread(depthImageName,'jpg');
 
     % Track the specified bots
     track_bots(botList, imgColor, imgDepth);
