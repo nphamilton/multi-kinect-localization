@@ -136,13 +136,21 @@ int main()
 /// [new directories for each time program is run] 
   time_t now = time(0);
   tm *ltm = localtime(&now);
-  char folderName [50];
-  sprintf(folderName, "Test_time_%d_%d_%d_%d:%d:%d",(1970 + ltm->tm_year),(1 + ltm->tm_mon),(ltm->tm_mday),(1 + ltm->tm_hour),(1 + ltm->tm_min),(1 + ltm->tm_sec));
-  rgbDir = folderName + "/rgbImages";
-  depthDir = folderName + "/depthImages";
-  system(("mkdir -p "+folderName).c_str());
-  system(("mkdir -p "+rgbDir).c_str());
-  system(("mkdir -p "+depthDir).c_str());
+  char folderName [50]; 
+  char rgbDir [50]; 
+  char depthDir [50]; 
+  char command1 [100]; 
+  char command2 [100]; 
+  char command3 [100];  
+  sprintf(folderName, "Test_time_%d_%d_%d_%d:%d:%d",(1900 + ltm->tm_year),(1 + ltm->tm_mon),(ltm->tm_mday),(ltm->tm_hour),(1 + ltm->tm_min),(1 + ltm->tm_sec));  
+  sprintf(rgbDir, "%s/rgbImages",folderName);  
+  sprintf(depthDir, "%s/depthImages",folderName); 
+  sprintf(command1, "mkdir -p %s",folderName); 
+  sprintf(command2, "mkdir -p %s",rgbDir); 
+  sprintf(command3, "mkdir -p %s",depthDir); 
+  system(command1);  
+  system(command2);  
+  system(command3);  
 
 /// [loop start]
   while(!cameraParser_shutdown)
