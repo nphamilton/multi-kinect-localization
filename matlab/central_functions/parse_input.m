@@ -27,7 +27,7 @@ f = fopen(fileName,'r');
 % Read the waypoint file name
 firstline = fgets(f);
 C = textscan(firstline, '%s');
-waypoint_filename = C{1};
+waypoint_filename = string(C{1});
 
 % Read the number of kinects and robots
 secondline = fgets(f);
@@ -78,9 +78,9 @@ while ischar(nextline)
             % Otherwise the line is for declaring a robot
             C = textscan(nextline,'%s %s %s');
             %assign the info to the appropriate spot in bots
-            bots(botNum).name = C{1};                                        %THIS LINE HAS PROBLEMS!!!!
+            bots(botNum).name = string(C{1});                                        %THIS LINE HAS PROBLEMS!!!!
             bots(botNum).type = type_name2num(C{2});
-            bots(botNum).color = C{3};
+            bots(botNum).color = string(C{3});
             
             % Update the appropriate bot_list
             list = strcat(list, num2str(botNum), ',');

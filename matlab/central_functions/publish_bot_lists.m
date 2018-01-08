@@ -12,8 +12,8 @@ if length(bot_lists) == length(botListPubs)
 	for i = 1:length(botListPubs)
 		% Create the message as a String type
 		msg = rosmessage('std_msgs/String');
-		msg.Data = bot_lists(i);
-		send(botIDListPubs(i),msg);
+		msg.Data = char(bot_lists(i));
+		send(botListPubs(i),msg);
 	end
 else
 	error('bot_lists and botListPubs are not the same size.')

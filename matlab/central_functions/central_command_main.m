@@ -75,14 +75,15 @@ end
 [walls, waypoints] = load_wpt(WPT_FILENAME, USE_WPT);
 
 % Establish boundaries for each Kinect node
-establish_boundaries();
+establish_boundaries(kinect_locations);
 
 % Create kinect-specific subscribers
-botListPubs = strings(1,numBots);
-incomingPubs = strings(1,numBots);
-locationsSubs = strings(1,numBots);
-responseSubs = strings(1,numBots);
-for i = 1:numBots
+[numKinects, p] = size(kinect_locations);
+botListPubs = robotics.ros.Publisher.empty(0,numKinects);
+incomingPubs = robotics.ros.Publisher.empty(0,numKinects);
+locationsSubs = robotics.ros.Subscriber.empty(0,numKinects);
+responseSubs = robotics.ros.Subscriber.empty(0,numKinects);
+for i = 1:numKinects
     botS = sprintf('/kinect%i/bot_list',i);
     incS = sprintf('/kinect%i/incoming',i);
     locS = sprintf('/kinect%i/locations',i);
@@ -95,7 +96,7 @@ end
 
 % Publish botID_list
 msg = rosmessage('std_msgs/String');
-msg.Data = botID_list;
+msg.Data = char(botID_list);
 send(botIDListPub,msg);
 
 % Publish the specific bot lists
@@ -103,14 +104,17 @@ publish_bot_lists(botListPubs);
 
 % Publish Kinect locations to kinectID_list
 msg = rosmessage('std_msgs/String');
-msg.Data = kinectID_list;
+msg.Data = char(kinectID_list);
 send(kinectLocationPub,msg);
 
 % Now that both botID_list and kinectID_list have been published, the nodes
 % will start searching for and reporting robot locations
 
 gFrameCount = 0;
+n = 0;
 while true
+    fprintf('Loop Number: %d\n',n);
+    n = n + 1;
     % Check each robot's location information for potential boundary crossing
     % and inform the appropriate Kinects of the incident(s)
     find_potential_crossings(bots, incomingPubs);
@@ -120,7 +124,7 @@ while true
     
     % Update the figure every ****** times
     frameCount = gFrameCount;
-    if rem(frameCount,4) == 0
+    if rem(frameCount,4) == 1
         plot_bots(fig, LINE_LEN, X_MAX, Y_MAX, bots, waypoints, walls,...
             disp_waypoints, disp_waypoint_names)
     end

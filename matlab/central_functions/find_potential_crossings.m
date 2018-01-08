@@ -63,7 +63,7 @@ if numKinects == length(publishers)
 	for i = 1:numKinects
 		% Create the message as a String type
 		msg = rosmessage('std_msgs/String');
-		msg.Data = incomingList(i);
+		msg.Data = char(incomingList(i));
 		send(publishers(i),msg);
 	end
 else
